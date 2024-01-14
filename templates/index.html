@@ -1,10 +1,129 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Welcome to My App</title>
+    <title>FastAPI with Azure Styling</title>
+    <style>
+        /* Add your styling here */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f2f1;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            background-color: white;
+            width: 50%;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+        input[type="text"], button {
+            padding: 10px;
+            margin: 10px;
+            border: 1px solid #0078d4;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #0078d4;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #005a9e;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to My FastAPI App</h1>
-    <p>This is a test landing page built with FastAPI!</p>
+    <div class="container">
+        <h1>Welcome to My Azure-themed FastAPI App</h1>
+
+        <div>
+            <p>Enter your username and submit:</p>
+            <input type="text" id="usernameInput" placeholder="Username">
+            <button onclick="submitUsername()">Submit</button>
+            <p id="usernameResponse"></p>
+        </div>
+
+        <div>
+            <h2>Get Current Weekday</h2>
+            <button onclick="getCurrentWeekday()">Get Weekday</button>
+            <p id="weekdayResponse"></p>
+        </div>
+
+        <div>
+            <h2>Convert Text to Morse Code</h2>
+            <input type="text" id="morseTextInput" placeholder="Enter text">
+            <button onclick="convertToMorse()">Convert</button>
+            <p id="morseResponse"></p>
+        </div>
+    </div>
+
+    <script>
+        async function submitUsername() {
+            const username = document.getElementById('usernameInput').value;
+            const responseContainer = document.getElementById('usernameResponse');
+
+            try {
+                const response = await fetch('/submit', {
+                    method: 'POST',
+                    headers: {
+                    'Content-Type': 'application/json',
+                    },
+                body: JSON.stringify({ username: username }),
+                });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const responseData = await response.json();
+            responseContainer.textContent = 'Server says: ' + responseData.message;
+        } catch (e) {
+            responseContainer.textContent = 'Error: ' + e.message;
+        }
+    }
+
+    async function getCurrentWeekday() {
+        const responseContainer = document.getElementById('weekdayResponse');
+
+        try {
+            const response = await fetch('/weekday', { method: 'GET' });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const responseData = await response.json();
+            responseContainer.textContent = 'Current Weekday: ' + responseData.weekday;
+        } catch (e) {
+            responseContainer.textContent = 'Error: ' + e.message;
+        }
+    }
+
+    async function convertToMorse() {
+        const text = document.getElementById('morseTextInput').value;
+        const responseContainer = document.getElementById('morseResponse');
+
+        try {
+            const response = await fetch('/text-to-morse', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ text: text }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const responseData = await response.json();
+            responseContainer.textContent = 'Morse Code: ' + responseData.morse_code;
+        } catch (e) {
+            responseContainer.textContent = 'Error: ' + e.message;
+        }
+    }
+</script>
 </body>
 </html>
