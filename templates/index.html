@@ -67,7 +67,20 @@
             <p id="morseResponse"></p>
         </div>
     </div>
-
+    <div>
+        <h2>Pokémon Data</h2>
+        <div>
+            <input type="text" id="pokemonNameInput" placeholder="Enter Pokémon name">
+            <input type="text" id="pokemonTypeInput" placeholder="Enter Pokémon type">
+            <input type="text" id="pokemonDescInput" placeholder="Enter Pokémon description">
+            <button onclick="addPokemon()">Add Pokémon</button>
+        </div>
+        <div>
+            <input type="text" id="pokemonSearchInput" placeholder="Search Pokémon by name">
+            <button onclick="getPokemon()">Get Pokémon</button>
+            <p id="pokemonResponse"></p>
+        </div>
+    </div>
     <script>
         async function submitUsername() {
             const username = document.getElementById('usernameInput').value;
@@ -129,6 +142,50 @@
 
             const responseData = await response.json();
             responseContainer.textContent = 'Morse Code: ' + responseData.morse_code;
+        } catch (e) {
+            responseContainer.textContent = 'Error: ' + e.message;
+        }
+    }
+
+    async function addPokemon() {
+        const name = document.getElementById('pokemonNameInput').value;
+        const type = document.getElementById('pokemonTypeInput').value;
+        const description = document.getElementById('pokemonDescInput').value;
+        const responseContainer = document.getElementById('pokemonResponse');
+
+        try {
+            const response = await fetch('/pokemon', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name: name, type: type, description: description }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const responseData = await response.json();
+            responseContainer.textContent = responseData.message;
+        } catch (e) {
+            responseContainer.textContent = 'Error: ' + e.message;
+        }
+    }
+
+    async function getPokemon() {
+        const name = document.getElementById('pokemonSearchInput').value;
+        const responseContainer = document.getElementById('pokemonResponse');
+
+        try {
+            const response = await fetch(`/pokemon/${name}`, { method: 'GET' });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const responseData = await response.json();
+            responseContainer.textContent = 'Name: ' + responseData.name + ', Type: ' + responseData.type + ', Description: ' + responseData.description;
         } catch (e) {
             responseContainer.textContent = 'Error: ' + e.message;
         }
