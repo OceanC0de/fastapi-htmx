@@ -4,3 +4,4 @@ jinja2
 pymongo
 azure-cosmos
 python-dotenv
+pydantic
