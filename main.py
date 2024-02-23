@@ -1,11 +1,13 @@
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 import os
 from datetime import datetime
 from dotenv import load_dotenv
 from pymongo import MongoClient
 from fastapi.middleware.cors import CORSMiddleware
+from random import sample
 
 # Load environment variables
 load_dotenv()
@@ -32,6 +34,8 @@ app.add_middleware(
 
 templates = Jinja2Templates(directory="templates")
 
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 # Model definition
 class Pokemon(BaseModel):
     name: str
@@ -41,7 +45,21 @@ class Pokemon(BaseModel):
 # Route Handlers
 @app.get("/")
 async def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    print("Fetching random Pokémon")
+    # Fetch all Pokémon names (or you can limit the number of documents to fetch if the collection is large)
+    all_pokemon = list(pokemon_collection.find({}, {'name': 1, '_id': 0}))
+    # Extract names and choose up to 3 random ones
+    all_names = [p['name'] for p in all_pokemon]
+    random_names = sample(all_names, min(len(all_names), 3))
+    # Get the full details of these random Pokémon
+    random_pokemon = [pokemon_collection.find_one({"name": name}) for name in random_names]
+    # Pass them to the template
+    print(random_pokemon)  # Debug: Print the fetched Pokémon data
+    return templates.TemplateResponse("index.html", {
+        "request": request,
+        "random_pokemon": random_pokemon,
+        "weekday": datetime.now().strftime("%A")  # Add this line to include the weekday in the context
+    })
 
 @app.get("/weekday")
 async def get_weekday():

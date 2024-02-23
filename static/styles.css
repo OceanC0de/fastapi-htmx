@@ -1,0 +1,63 @@
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f3f2f1;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+}
+.container {
+    background-color: white;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    width: 90%; /* Makes the container responsive */
+    max-width: 400px; /* Maximum width of the container */
+}
+input[type="text"],
+button {
+    padding: 10px;
+    width: 80%; /* Makes the input and button take up 80% of their container */
+    margin: 10px 0; /* Adds top and bottom margin */
+    box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+    border: 1px solid #0078d4;
+    border-radius: 4px;
+}
+button {
+    background-color: #0078d4;
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+button:hover {
+    background-color: #005a9e;
+}
+
+/* New styles for random Pokémon table */
+.random-pokemon-section {
+    width: 100%;
+    margin-top: 20px;
+}
+.random-pokemon-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: auto;
+}
+.random-pokemon-table th,
+.random-pokemon-table td {
+    border: 1px solid #0078d4;
+    padding: 8px;
+    text-align: left;
+}
+.random-pokemon-table th {
+    background-color: #0078d4;
+    color: white;
+}
+.random-pokemon-table tbody tr:nth-child(odd) {
+    background-color: #e1e1e1;
+}
