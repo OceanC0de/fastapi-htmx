@@ -8,7 +8,10 @@ from dotenv import load_dotenv
 from pymongo import MongoClient
 from fastapi.middleware.cors import CORSMiddleware
 from random import sample
+from fastapi_htmx import htmx_init
+from pathlib import Path
 
+htmx_init(templates=Jinja2Templates(directory=Path("my_app") / "templates"))
 # Load environment variables
 load_dotenv()
 

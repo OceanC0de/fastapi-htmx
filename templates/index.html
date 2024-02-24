@@ -2,157 +2,135 @@
 <html>
     <head>
         <title>FastAPI with Azure Styling</title>
-        <link rel="stylesheet" type="text/css" href="/static/styles.css" />
-        <!-- Link to the external CSS file -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css"
+        />
+        <script src="https://unpkg.com/htmx.org"></script>
     </head>
     <body>
-        <div class="container">
-            <h1>AI Data Dot Rest</h1>
+        <section class="section">
+            <div class="container">
+                <h1 class="title">AI Data Dot Rest</h1>
 
-            <!-- Weekday section -->
-            <div>
-                <button onclick="getCurrentWeekday()">
-                    Get Current Weekday
-                </button>
-                <p id="weekdayResponse"></p>
+                <!-- Weekday section -->
+                <div>
+                    <button
+                        class="button is-primary"
+                        hx-get="/weekday"
+                        hx-target="#weekdayResponse"
+                    >
+                        Get Current Weekday
+                    </button>
+                    <p id="weekdayResponse"></p>
+                </div>
             </div>
-        </div>
-        <div>
-            <h2>Pokémon Data</h2>
-            <div>
-                <input
-                    type="text"
-                    id="pokemonNameInput"
-                    placeholder="Enter Pokémon name"
-                />
-                <input
-                    type="text"
-                    id="pokemonTypeInput"
-                    placeholder="Enter Pokémon type"
-                />
-                <input
-                    type="text"
-                    id="pokemonDescInput"
-                    placeholder="Enter Pokémon description"
-                />
-                <button onclick="addPokemon()">Add Pokémon</button>
-            </div>
-            <div>
-                <input
-                    type="text"
-                    id="pokemonSearchInput"
-                    placeholder="Search Pokémon by name"
-                />
-                <button onclick="getPokemon()">Get Pokémon</button>
+
+            <div class="container">
+                <h2 class="title is-3">Pokémon Data</h2>
+                <!-- Use HTMX for adding Pokémon -->
+                <form
+                    hx-post="/pokemon"
+                    hx-target="#pokemonResponse"
+                    class="box"
+                >
+                    <div class="field">
+                        <label class="label">Pokémon Name</label>
+                        <div class="control">
+                            <input
+                                class="input"
+                                type="text"
+                                name="name"
+                                placeholder="Enter Pokémon name"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Pokémon Type</label>
+                        <div class="control">
+                            <input
+                                class="input"
+                                type="text"
+                                name="type"
+                                placeholder="Enter Pokémon type"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Description</label>
+                        <div class="control">
+                            <input
+                                class="input"
+                                type="text"
+                                name="description"
+                                placeholder="Enter Pokémon description"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div class="control">
+                        <button type="submit" class="button is-link">
+                            Add Pokémon
+                        </button>
+                    </div>
+                </form>
                 <p id="pokemonResponse"></p>
+
+                <!-- Simplified approach for fetching Pokémon details -->
+                <div>
+                    <div class="field">
+                        <label class="label">Search Pokémon by Name</label>
+                        <div class="control">
+                            <input
+                                class="input"
+                                type="text"
+                                id="pokemonSearchInput"
+                                placeholder="Search Pokémon by name"
+                            />
+                        </div>
+                    </div>
+                    <div class="control">
+                        <button
+                            class="button is-info"
+                            hx-get="/pokemon/{name}"
+                            hx-target="#pokemonResponse"
+                            hx-swap="outerHTML"
+                            hx-trigger="click from:#pokemonSearchInput"
+                            hx-include="#pokemonSearchInput"
+                        >
+                            Get Pokémon
+                        </button>
+                    </div>
+                    <p id="pokemonResponse"></p>
+                </div>
             </div>
-        </div>
-        <div class="random-pokemon-section">
-            <h2>3x Random Pokémon For You</h2>
-            <table class="random-pokemon-table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for pokemon in random_pokemon %}
-                    <tr>
-                        <td>{{ pokemon.name }}</td>
-                        <td>{{ pokemon.type }}</td>
-                        <td>{{ pokemon.description }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <script>
-            async function getCurrentWeekday() {
-                const responseContainer =
-                    document.getElementById("weekdayResponse");
 
-                try {
-                    const response = await fetch("/weekday", { method: "GET" });
-
-                    if (!response.ok) {
-                        throw new Error(
-                            `HTTP error! status: ${response.status}`,
-                        );
-                    }
-
-                    const responseData = await response.json();
-                    responseContainer.textContent =
-                        "Current Weekday: " + responseData.weekday;
-                } catch (e) {
-                    responseContainer.textContent = "Error: " + e.message;
-                }
-            }
-
-            async function addPokemon() {
-                const name = document.getElementById("pokemonNameInput").value;
-                const type = document.getElementById("pokemonTypeInput").value;
-                const description =
-                    document.getElementById("pokemonDescInput").value;
-                const responseContainer =
-                    document.getElementById("pokemonResponse");
-
-                try {
-                    const response = await fetch("/pokemon", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                            name: name,
-                            type: type,
-                            description: description,
-                        }),
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(
-                            `HTTP error! status: ${response.status}`,
-                        );
-                    }
-
-                    const responseData = await response.json();
-                    responseContainer.textContent = responseData.message;
-                } catch (e) {
-                    responseContainer.textContent = "Error: " + e.message;
-                }
-            }
-
-            async function getPokemon() {
-                const name =
-                    document.getElementById("pokemonSearchInput").value;
-                const responseContainer =
-                    document.getElementById("pokemonResponse");
-
-                try {
-                    const response = await fetch(`/pokemon/${name}`, {
-                        method: "GET",
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(
-                            `HTTP error! status: ${response.status}`,
-                        );
-                    }
-
-                    const responseData = await response.json();
-                    responseContainer.textContent =
-                        "Name: " +
-                        responseData.name +
-                        ", Type: " +
-                        responseData.type +
-                        ", Description: " +
-                        responseData.description;
-                } catch (e) {
-                    responseContainer.textContent = "Error: " + e.message;
-                }
-            }
-        </script>
+            <div class="container">
+                <h2 class="title is-3">3x Random Pokémon For You</h2>
+                <table class="is-striped is-fullwidth table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pokemon in random_pokemon %}
+                        <tr>
+                            <td>{{ pokemon.name }}</td>
+                            <td>{{ pokemon.type }}</td>
+                            <td>{{ pokemon.description }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
     </body>
 </html>
