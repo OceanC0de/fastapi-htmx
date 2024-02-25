@@ -1,10 +1,10 @@
 <!doctype html>
 <html>
     <head>
-        <title>FastAPI with Azure Styling</title>
+        <title>AIData.rest</title>
         <link
             rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css"
+            href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
         />
         <script src="https://unpkg.com/htmx.org"></script>
     </head>
@@ -12,9 +12,8 @@
     <body>
         <section class="section">
             <div class="container">
-                <h1 class="title">AI Data Dot Rest</h1>
+                <h1 class="title">AIData.rest</h1>
 
-                <!-- Weekday section -->
                 <div>
                     <button
                         class="button is-primary"
@@ -29,7 +28,6 @@
 
             <div class="container">
                 <h2 class="title is-3">Pokémon Data</h2>
-                <!-- Use HTMX for adding Pokémon -->
                 <form
                     hx-post="/pokemon"
                     hx-target="#pokemonResponse"
@@ -82,9 +80,7 @@
                 </form>
                 <p id="pokemonResponse"></p>
 
-                <!-- Simplified approach for fetching Pokémon details -->
                 <div>
-                    <!-- Simplified approach for fetching Pokémon details -->
                     <div>
                         <form
                             method="get"
