@@ -7,3 +7,4 @@ azure-cosmos
 python-dotenv
 pydantic
 azure-cosmos
+python-multipart

@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request, HTTPException, Query, Form
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -43,10 +43,15 @@ class Pokemon(BaseModel):
     type: str
     description: str
 
+# Adjust your Pydantic model for form data
+class PokemonForm(BaseModel):
+    name: str
+    type: str
+    description: str
+
 # Route Handlers
 @app.get("/")
 async def read_root(request: Request):
-    print("Fetching random Pokémon")
     # Fetch all Pokémon names (or you can limit the number of documents to fetch if the collection is large)
     all_pokemon = list(pokemon_collection.find({}, {'name': 1, '_id': 0}))
     # Extract names and choose up to 3 random ones
@@ -55,7 +60,6 @@ async def read_root(request: Request):
     # Get the full details of these random Pokémon
     random_pokemon = [pokemon_collection.find_one({"name": name}) for name in random_names]
     # Pass them to the template
-    print(random_pokemon)  # Debug: Print the fetched Pokémon data
     return templates.TemplateResponse("index.html", {
         "request": request,
         "random_pokemon": random_pokemon,
@@ -68,19 +72,19 @@ async def get_weekday():
     return {"weekday": weekday}
 
 @app.post("/pokemon")
-async def add_pokemon(pokemon: Pokemon):
-    pokemon_dict = pokemon.dict()
-    existing_pokemon = pokemon_collection.find_one({"name": pokemon.name})
+async def add_pokemon(name: str = Form(...), type: str = Form(...), description: str = Form(...)):
+    pokemon_dict = {"name": name, "type": type, "description": description}
+    existing_pokemon = pokemon_collection.find_one({"name": name})
     if existing_pokemon:
         raise HTTPException(status_code=400, detail="Pokemon already exists")
     pokemon_collection.insert_one(pokemon_dict)
-    return {"message": f"{pokemon.name} added to the database!"}
+    return {"message": f"{name} added to the database!"}
 
-@app.get("/pokemon/{name}")
-async def get_pokemon(name: str):
-    pokemon = pokemon_collection.find_one({"name": name})
-    if pokemon:
-        # Excluding the MongoDB generated ID in the response
-        pokemon.pop('_id', None)
-        return pokemon
+@app.get("/pokemon/")
+async def get_pokemon(name: str = Query(None)):
+    if name:
+        pokemon = pokemon_collection.find_one({"name": name})
+        if pokemon:
+            pokemon.pop('_id', None)
+            return pokemon
     raise HTTPException(status_code=404, detail="Pokemon not found")

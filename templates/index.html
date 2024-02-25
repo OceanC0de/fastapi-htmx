@@ -8,6 +8,7 @@
         />
         <script src="https://unpkg.com/htmx.org"></script>
     </head>
+
     <body>
         <section class="section">
             <div class="container">
@@ -83,28 +84,34 @@
 
                 <!-- Simplified approach for fetching Pokémon details -->
                 <div>
-                    <div class="field">
-                        <label class="label">Search Pokémon by Name</label>
-                        <div class="control">
-                            <input
-                                class="input"
-                                type="text"
-                                id="pokemonSearchInput"
-                                placeholder="Search Pokémon by name"
-                            />
-                        </div>
-                    </div>
-                    <div class="control">
-                        <button
-                            class="button is-info"
-                            hx-get="/pokemon/{name}"
+                    <!-- Simplified approach for fetching Pokémon details -->
+                    <div>
+                        <form
+                            method="get"
+                            hx-get="/pokemon/"
                             hx-target="#pokemonResponse"
-                            hx-swap="outerHTML"
-                            hx-trigger="click from:#pokemonSearchInput"
                             hx-include="#pokemonSearchInput"
                         >
-                            Get Pokémon
-                        </button>
+                            <div class="field">
+                                <label class="label"
+                                    >Search Pokémon by Name</label
+                                >
+                                <div class="control">
+                                    <input
+                                        class="input"
+                                        type="text"
+                                        id="pokemonSearchInput"
+                                        name="name"
+                                    />
+                                </div>
+                            </div>
+                            <div class="control">
+                                <button type="submit" class="button is-info">
+                                    Get Pokémon
+                                </button>
+                            </div>
+                        </form>
+                        <p id="pokemonResponse"></p>
                     </div>
                     <p id="pokemonResponse"></p>
                 </div>
