@@ -72,14 +72,14 @@ async def get_weekday():
     weekday = datetime.now().strftime("%A")
     return {"weekday": weekday}
 
-@app.post("/pokemon")
-async def add_pokemon(name: str = Form(...), type: str = Form(...), description: str = Form(...)):
-    pokemon_dict = {"name": name, "type": type, "description": description}
-    existing_pokemon = pokemon_collection.find_one({"name": name})
-    if existing_pokemon:
-        raise HTTPException(status_code=400, detail="Pokemon already exists")
-    pokemon_collection.insert_one(pokemon_dict)
-    return {"message": f"{name} added to the database!"}
+#@app.post("/pokemon")
+#async def add_pokemon(name: str = Form(...), type: str = Form(...), description: str = Form(...)):
+#    pokemon_dict = {"name": name, "type": type, "description": description}
+#    existing_pokemon = pokemon_collection.find_one({"name": name})
+#    if existing_pokemon:
+    #        raise HTTPException(status_code=400, detail="Pokemon already exists")
+    #    pokemon_collection.insert_one(pokemon_dict)
+    #    return {"message": f"{name} added to the database!"}
 
 @app.get("/pokemon/")
 async def get_pokemon(name: str = Query(None)):
