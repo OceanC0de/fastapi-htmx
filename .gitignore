@@ -2,3 +2,4 @@
 venv/
 __pycache__/
 httpx_examples.py
+threatfox.py

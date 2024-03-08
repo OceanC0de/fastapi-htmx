@@ -2,82 +2,67 @@
 <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
 <html>
     <head>
-        <title>AIData.rest</title>
+        <title>IOC data.rest</title>
         <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
         />
         <script src="https://unpkg.com/htmx.org"></script>
     </head>
-
     <body>
         <section class="section">
             <div class="container">
-                <h1 class="title">AI data.rest</h1>
+                <h1 class="title">IOC data.rest</h1>
+            </div>
 
+            <div class="container">
+                <h2 class="title is-3">Search for an IOC</h2>
                 <div>
-                    <button
-                        class="button is-primary"
-                        hx-get="/weekday"
-                        hx-target="#weekdayResponse"
+                    <form
+                        method="get"
+                        hx-get="/ioc/"
+                        hx-target="#iocResponse"
+                        hx-include="#iocSearchInput"
                     >
-                        Get Current Weekday
-                    </button>
-                    <p id="weekdayResponse"></p>
-                </div>
-            </div>
-
-            <div class="container">
-                <h2 class="title is-3">Pokémon Data</h2>
-                <div>
-                    <div>
-                        <form
-                            method="get"
-                            hx-get="/pokemon/"
-                            hx-target="#pokemonResponse"
-                            hx-include="#pokemonSearchInput"
-                        >
-                            <div class="field">
-                                <label class="label"
-                                    >Search Pokémon by Name</label
-                                >
-                                <div class="control">
-                                    <input
-                                        class="input"
-                                        type="text"
-                                        id="pokemonSearchInput"
-                                        name="name"
-                                    />
-                                </div>
-                            </div>
+                        <div class="field">
+                            <label class="label">Search IOC by Value</label>
                             <div class="control">
-                                <button type="submit" class="button is-info">
-                                    Get Pokémon
-                                </button>
+                                <input
+                                    class="input"
+                                    type="text"
+                                    id="iocSearchInput"
+                                    name="ioc"
+                                />
                             </div>
-                        </form>
-                        <p id="pokemonResponse"></p>
-                    </div>
-                    <p id="pokemonResponse"></p>
+                        </div>
+                        <div class="control">
+                            <button type="submit" class="button is-info">
+                                Get IOC
+                            </button>
+                        </div>
+                    </form>
+                    <p id="iocResponse"></p>
                 </div>
             </div>
 
             <div class="container">
-                <h2 class="title is-3">3x Random Pokémon For You</h2>
+                <h2 class="title is-3">Sample IOCs</h2>
                 <table class="is-striped is-fullwidth table">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Description</th>
+                            <th>IOC (Do not click/open !!)</th>
+                            <th>Threat Type</th>
+                            <th>Malware</th>
+                            <th>First Seen</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for pokemon in random_pokemon %}
+                        {% for ioc in random_iocs %}
                         <tr>
-                            <td>{{ pokemon.name }}</td>
-                            <td>{{ pokemon.type }}</td>
-                            <td>{{ pokemon.description }}</td>
+                            <td>{{ ioc.ioc }}</td>
+                            <td>{{ ioc.threat_type_desc }}</td>
+                            <td>{{ ioc.malware_printable }}</td>
+                            <td>{{ ioc.first_seen }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
