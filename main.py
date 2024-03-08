@@ -36,6 +36,7 @@ app.add_middleware(
 )
 
 templates = Jinja2Templates(directory="templates")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Model definition
 class Pokemon(BaseModel):
