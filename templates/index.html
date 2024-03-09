@@ -1,37 +1,35 @@
 <!doctype html>
-<link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
 <html>
     <head>
-        <title>IOC data.rest</title>
-        <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
-        />
+        <title>AI data.rest</title>
+        <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+        <link rel="stylesheet" type="text/css" href="/static/css/home.css" />
         <script src="https://unpkg.com/htmx.org"></script>
     </head>
     <body>
         <section class="section">
             <div class="container">
-                <h1 class="title">IOC data.rest</h1>
+                <h1 class="title">AI data.rest</h1>
             </div>
 
             <div class="container">
-                <h2 class="title is-3">Search for an IOC</h2>
+                <h2 class="title">Search for an IOC</h2>
                 <div>
                     <form
                         method="get"
                         hx-get="/ioc/"
                         hx-target="#iocResponse"
-                        hx-include="#iocSearchInput"
+                        hx-swap="innerHTML"
                     >
                         <div class="field">
-                            <label class="label">Search IOC by Value</label>
+                            <!--<label class="label">Search IOC by Value</label>-->
                             <div class="control">
                                 <input
                                     class="input"
                                     type="text"
                                     id="iocSearchInput"
                                     name="ioc"
+                                    required
                                 />
                             </div>
                         </div>
@@ -41,28 +39,33 @@
                             </button>
                         </div>
                     </form>
-                    <p id="iocResponse"></p>
+                    <div id="iocResponse" class="json-response">
+                        <!-- The server should respond with a table or table row(s) here -->
+                        <!-- JSON response will be styled here -->
+                    </div>
                 </div>
             </div>
 
             <div class="container">
-                <h2 class="title is-3">Sample IOCs</h2>
+                <h2 class="title">Sample IOCs</h2>
                 <table class="is-striped is-fullwidth table">
                     <thead>
                         <tr>
-                            <th>IOCs(Do not open!!)</th>
+                            <th>First Seen</th>
+                            <th>IOC</th>
                             <th>Threat Type</th>
                             <th>Malware</th>
-                            <th>First Seen</th>
+                            <th>Confidence</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for ioc in random_iocs %}
                         <tr>
+                            <td>{{ ioc.first_seen }}</td>
                             <td>{{ ioc.ioc }}</td>
                             <td>{{ ioc.threat_type_desc }}</td>
                             <td>{{ ioc.malware_printable }}</td>
-                            <td>{{ ioc.first_seen }}</td>
+                            <td>{{ ioc.confidence_level }}%</td>
                         </tr>
                         {% endfor %}
                     </tbody>

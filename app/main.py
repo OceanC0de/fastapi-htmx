@@ -14,15 +14,6 @@ from app.config import templates, ioc_collection
 
 htmx_init(templates)
 # Load environment variables
-load_dotenv()
-
-# MongoDB connection string
-connection_string = os.getenv('COSMOS_CONNECTION_STRING')
-
-# MongoDB client initialization
-client = MongoClient(connection_string)
-db = client['iocs']  # Database name
-ioc_collection = db['ioccollection']  # Collection name
 
 # FastAPI app initialization
 app = FastAPI()
