@@ -1,5 +1,10 @@
 .env
 venv/
 __pycache__/
+.pytest_cache
+pytest.ini
+app/__pycache__/
+app/routers/__pycache__/
 httpx_examples.py
 threatfox.py
+tests/
