@@ -7,7 +7,7 @@ router = APIRouter()
 
 @router.get("/")
 async def read_root(request: Request):
-    iocs_cursor = ioc_collection.find({}).limit(3)
+    iocs_cursor = ioc_collection.find({}).limit(1)
     iocs = list(iocs_cursor)
     return templates.TemplateResponse("index.html", {
         "request": request,

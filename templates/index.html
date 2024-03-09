@@ -17,7 +17,8 @@
 
             <div class="container">
                 <h3 class="title">
-                    All standards are based on OpenAPI and JSON Schema:
+                    APIs are based on OpenAPI Standards and JSON Schema.
+                    Documentation:
                     <a href="https://aidata.rest/docs">aidata.rest/docs</a>
                 </h3>
             </div>
@@ -39,13 +40,14 @@
                                     type="text"
                                     id="iocSearchInput"
                                     name="ioc"
+                                    placeholder="e.g. 91.92.250.61:3232"
                                     required
                                 />
                             </div>
                         </div>
                         <div class="control">
                             <button type="submit" class="button is-info">
-                                Get IOC
+                                Get
                             </button>
                         </div>
                     </form>
@@ -54,16 +56,13 @@
                         <!-- JSON response will be styled here -->
                     </div>
                 </div>
-            </div>
-
-            <div class="container">
-                <h3 class="title">Sample IOCs</h3>
+                <h3 class="title">Example IOC</h3>
                 <table class="is-striped is-fullwidth table">
                     <thead>
                         <tr>
                             <th>First Seen</th>
                             <th>IOC</th>
-                            <th>Threat Type</th>
+                            <th>Type</th>
                             <th>Malware</th>
                             <th>Confidence</th>
                         </tr>
@@ -73,7 +72,7 @@
                         <tr>
                             <td>{{ ioc.first_seen }}</td>
                             <td>{{ ioc.ioc }}</td>
-                            <td>{{ ioc.threat_type_desc }}</td>
+                            <td>{{ ioc.ioc_type }}</td>
                             <td>{{ ioc.malware_printable }}</td>
                             <td>{{ ioc.confidence_level }}%</td>
                         </tr>
