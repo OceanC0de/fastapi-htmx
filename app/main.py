@@ -1,16 +1,9 @@
-from fastapi import FastAPI, Request, HTTPException, Query, Form
+from fastapi import FastAPI
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_htmx import htmx_init
-from pydantic import BaseModel
-import os
-from datetime import datetime
-from dotenv import load_dotenv
-from pymongo import MongoClient
-from random import sample
-from pathlib import Path
-from app.config import templates, ioc_collection
+from app.config import templates
 
 htmx_init(templates)
 # Load environment variables
