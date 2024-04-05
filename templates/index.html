@@ -5,6 +5,8 @@
         <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" type="text/css" href="/static/css/home.css" />
         <script src="https://unpkg.com/htmx.org"></script>
+        <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+        <script src="https://cdn.jsdelivr.net/gh/ocramz/htmx-plotly@0.4/htmx-plotly.js" integrity="sha256-FgvTlDVvVXn0uoRXC9MLfkxAsu9AOoGMxFRwc7If9Cg=" crossorigin="anonymous"></script>
     </head>
     <body>
         <section class="section">
@@ -79,6 +81,33 @@
                         {% endfor %}
                     </tbody>
                 </table>
+            </div>
+            <div class="column">
+                <div class="container">
+                    <h3 class="title">Raspberry Pi - CPU Temperature over Time</h3>
+                    <div class="plot-wrapper">
+                        <div id="plot-container-temp" hx-ext="htmx-plotly" hx-get="/plot/cpu_temp" hx-target="#plot-container-temp" hx-swap="outerHTML" hx-trigger="load">
+                            <div id="plot-temp"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <h3 class="title">Raspberry Pi - CPU Load over Time</h3>
+                    <div class="plot-wrapper">
+                        <div id="plot-container-load" hx-ext="htmx-plotly" hx-get="/plot/cpu_load" hx-target="#plot-container-load" hx-swap="outerHTML" hx-trigger="load">
+                            <div id="plot-load"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <h3 class="title">Raspberry Pi - Memory Used over Time</h3>
+                    <div class="plot-wrapper">
+                        <div id="plot-container-memory" hx-ext="htmx-plotly" hx-get="/plot/memory_used" hx-target="#plot-container-memory" hx-swap="outerHTML" hx-trigger="load">
+                            <div id="plot-memory"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             </div>
         </section>
     </body>

@@ -2,6 +2,7 @@
 from fastapi import APIRouter, Request, HTTPException, Query
 from datetime import datetime
 from app.config import templates, ioc_collection
+from app.routers import plot_router
 
 router = APIRouter()
 
@@ -27,3 +28,5 @@ async def get_ioc(ioc: str = Query(None)):
 async def get_weekday():
     weekday = datetime.now().strftime("%A")
     return {"weekday": weekday}
+
+router.include_router(plot_router.router)  # Move this line here

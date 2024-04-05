@@ -8,3 +8,8 @@ python-dotenv
 pydantic
 azure-cosmos
 python-multipart
+pandas
+plotly
+kaleido
+numpy
+pytz

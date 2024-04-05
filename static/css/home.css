@@ -92,6 +92,24 @@ html {
     white-space: pre-wrap; /* Preserves whitespaces and line breaks */
 }
 
+/* Plot Container Styles */
+#plot-container {
+    margin-top: 20px;
+}
+
+#plot {
+    width: 100%;
+    height: 400px;
+    background-color: #1c1c1c; /* Match the background color of striped table rows */
+    border-radius: 8px; /* Soft rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+.plot-wrapper {
+    background-color: #1f1f1f;
+    padding: 20px;
+}
+
 /* Table Styles */
 table {
     width: 100%;
