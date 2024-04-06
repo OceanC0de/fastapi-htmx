@@ -1,114 +1,38 @@
 <!doctype html>
 <html>
-    <head>
-        <title>AI data.rest</title>
-        <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
-        <link rel="stylesheet" type="text/css" href="/static/css/home.css" />
-        <script src="https://unpkg.com/htmx.org"></script>
-        <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
-        <script src="https://cdn.jsdelivr.net/gh/ocramz/htmx-plotly@0.4/htmx-plotly.js" integrity="sha256-FgvTlDVvVXn0uoRXC9MLfkxAsu9AOoGMxFRwc7If9Cg=" crossorigin="anonymous"></script>
-    </head>
-    <body>
-        <section class="section">
-            <div class="container">
-                <h2 class="title">
-                    Open REST Server that serves API endpoints - tailored for AI
-                    utility
-                </h2>
-            </div>
-
-            <div class="container">
-                <h3 class="title">
-                    APIs are based on OpenAPI Standards and JSON Schema.
-                    Documentation:
-                    <a href="https://aidata.rest/docs">aidata.rest/docs</a>
-                </h3>
-            </div>
-
-            <div class="container">
-                <h3 class="title">Search for an IOC</h3>
-                <div>
-                    <form
-                        method="get"
-                        hx-get="/ioc/"
-                        hx-target="#iocResponse"
-                        hx-swap="innerHTML"
-                    >
-                        <div class="field">
-                            <!--<label class="label">Search IOC by Value</label>-->
-                            <div class="control">
-                                <input
-                                    class="input"
-                                    type="text"
-                                    id="iocSearchInput"
-                                    name="ioc"
-                                    placeholder="e.g. 91.92.250.61:3232"
-                                    required
-                                />
-                            </div>
-                        </div>
-                        <div class="control">
-                            <button type="submit" class="button is-info">
-                                Get
-                            </button>
-                        </div>
-                    </form>
-                    <div id="iocResponse" class="json-response">
-                        <!-- The server should respond with a table or table row(s) here -->
-                        <!-- JSON response will be styled here -->
+<head>
+    <title>AI data.rest</title>
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="/static/css/home.css" />
+    <script src="https://unpkg.com/htmx.org"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/gh/ocramz/htmx-plotly@0.4/htmx-plotly.js" integrity="sha256-FgvTlDVvVXn0uoRXC9MLfkxAsu9AOoGMxFRwc7If9Cg=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <h3 class="title">
+                Open REST Server that serves API endpoints <br>
+                <br>
+                - Tailored for AI utility <br>
+                - APIs are based on OpenAPI Standards and JSON Schema. <br>
+                <br>
+                API Documentation: <a href="https://aidata.rest/docs">aidata.rest/docs</a>
+            </h3>
+        </div>
+        <div class="container">
+            <nav class="navbar">
+                <div class="navbar-container">
+                    <div class="navbar-menu">
+                        <a href="#" class="navbar-item" hx-get="/iocs" hx-target="#tab-content" hx-swap="innerHTML">IOCs</a>
+                        <a href="#" class="navbar-item" hx-get="/plots" hx-target="#tab-content" hx-swap="innerHTML">Plots</a>
                     </div>
                 </div>
-                <h3 class="title">Example IOC</h3>
-                <table class="is-striped is-fullwidth table">
-                    <thead>
-                        <tr>
-                            <th>First Seen</th>
-                            <th>IOC</th>
-                            <th>Type</th>
-                            <th>Malware</th>
-                            <th>Confidence</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for ioc in random_iocs %}
-                        <tr>
-                            <td>{{ ioc.first_seen }}</td>
-                            <td>{{ ioc.ioc }}</td>
-                            <td>{{ ioc.ioc_type }}</td>
-                            <td>{{ ioc.malware_printable }}</td>
-                            <td>{{ ioc.confidence_level }}%</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+            </nav>
+            <div id="tab-content">
+                <!-- Main content will be loaded here -->
             </div>
-            <div class="column">
-                <div class="container">
-                    <h3 class="title">Raspberry Pi - CPU Temperature over Time</h3>
-                    <div class="plot-wrapper">
-                        <div id="plot-container-temp" hx-ext="htmx-plotly" hx-get="/plot/cpu_temp" hx-target="#plot-container-temp" hx-swap="outerHTML" hx-trigger="load">
-                            <div id="plot-temp"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="container">
-                    <h3 class="title">Raspberry Pi - CPU Load over Time</h3>
-                    <div class="plot-wrapper">
-                        <div id="plot-container-load" hx-ext="htmx-plotly" hx-get="/plot/cpu_load" hx-target="#plot-container-load" hx-swap="outerHTML" hx-trigger="load">
-                            <div id="plot-load"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="container">
-                    <h3 class="title">Raspberry Pi - Memory Used over Time</h3>
-                    <div class="plot-wrapper">
-                        <div id="plot-container-memory" hx-ext="htmx-plotly" hx-get="/plot/memory_used" hx-target="#plot-container-memory" hx-swap="outerHTML" hx-trigger="load">
-                            <div id="plot-memory"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </div>
-        </section>
-    </body>
+        </div>
+    </section>
+</body>
 </html>

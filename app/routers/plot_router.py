@@ -3,6 +3,7 @@ from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse
 from app.charts import make_chart
 from app.database import fetch_data_from_cosmosdb
+from app.charts import make_chart
 
 router = APIRouter()
 
@@ -26,7 +27,7 @@ async def plot_metric(request: Request, metric: str, y_axis_title: str):
     smoothed_y_data = smooth_data(y_data, window_size)
 
     chart_html = make_chart(x_data=x_data, y_data=smoothed_y_data, ticker_symbol="", x_axis_title="", y_axis_title=y_axis_title)
-    return HTMLResponse(content=chart_html)
+    return HTMLResponse(content=f'<div id="plot-{metric}">{chart_html}</div>')
 
 @router.route("/plot/cpu_temp", methods=["GET"])
 async def plot_cpu_temp(request: Request):
